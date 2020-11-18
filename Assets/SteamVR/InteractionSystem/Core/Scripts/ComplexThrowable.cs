@@ -246,7 +246,7 @@ namespace Valve.VR.InteractionSystem
 			}
 			for (int i = 0; i < holdingHands.Count; i++)
 			{
-				if (holdingHands.IndexOf(holdingHands[i].otherHand) == -1 && holdingHands[i].gameObject.tag=="RightHand") // other hand not holding this
+				if (holdingHands.IndexOf(holdingHands[i].otherHand) == -1) // other hand not holding this
 				{
 					Hand otherHand = holdingHands[i].otherHand;
 					if (otherHand.currentAttachedObject)                      // and holding a thing
@@ -264,26 +264,42 @@ namespace Valve.VR.InteractionSystem
 						for (int j = 0; j < attachmentPoints.Count; j++)
 						{
 							GameObject attachmentPoint = attachmentPoints[j];
-							if (ObjectInRigidbodies(attachmentPoint.transform.parent.parent.gameObject))
+							if (attachmentPoint.transform.parent) 
 							{
-								attachmentPointsHere.Add(attachmentPoint);
+								if (attachmentPoint.transform.parent.parent) 
+								{
+									if (ObjectInRigidbodies(attachmentPoint.transform.parent.parent.gameObject))
+									{
+										attachmentPointsHere.Add(attachmentPoint);
+									}
+									else if (attachmentPoint.transform.parent.parent.gameObject == otherHand.currentAttachedObject)
+									{
+										attachmentPointsOther.Add(attachmentPoint);
+									}
+								}
+								
 							}
-							else if (attachmentPoint.transform.parent.parent.gameObject == otherHand.currentAttachedObject)
-							{
-								attachmentPointsOther.Add(attachmentPoint);
-							}
+							
 						}
 						for (int j = 0; j < sideAttachmentPoints.Count; j++)
 						{
 							GameObject sideAttachmentPoint = sideAttachmentPoints[j];
-							if (ObjectInRigidbodies(sideAttachmentPoint.transform.parent.parent.gameObject))
+							if (sideAttachmentPoint.transform.parent)
 							{
-								sideAttachmentPointsHere.Add(sideAttachmentPoint);
+								if (sideAttachmentPoint.transform.parent.parent)
+								{
+									if (ObjectInRigidbodies(sideAttachmentPoint.transform.parent.parent.gameObject))
+									{
+										sideAttachmentPointsHere.Add(sideAttachmentPoint);
+									}
+									else if (sideAttachmentPoint.transform.parent.parent.gameObject == otherHand.currentAttachedObject)
+									{
+										sideAttachmentPointsOther.Add(sideAttachmentPoint);
+									}
+								}
+
 							}
-							else if (sideAttachmentPoint.transform.parent.parent.gameObject == otherHand.currentAttachedObject)
-							{
-								sideAttachmentPointsOther.Add(sideAttachmentPoint);
-							}
+
 						}
 						float closestDistance = float.MaxValue;
 						GameObject closestHere = null;
@@ -312,7 +328,7 @@ namespace Valve.VR.InteractionSystem
 									closestDistance = distance;
 									closestHere = sideAttachmentPointsHere[j];
 									closestOther = sideAttachmentPointsOther[k];
-									isSide = true;
+									// isSide = true;
 								}
 							}
 						}
@@ -359,6 +375,9 @@ namespace Valve.VR.InteractionSystem
 						attachmentPoints.Clear();
 						attachmentPointsHere.Clear();
 						attachmentPointsOther.Clear();
+						sideAttachmentPoints.Clear();
+						sideAttachmentPointsHere.Clear();
+						sideAttachmentPointsOther.Clear();
 					}
 				}
 

@@ -160,19 +160,19 @@ public class RocketController : MonoBehaviour
         {
             if (p.tag == "Engine")
             {
-                if (!engines.Contains(p))
-                {
-                    engines.Add(p);
-                    stackComponents.Add(p);
-                }
+                // if (!engines.Contains(p))
+                // {
+                engines.Add(p);
+                stackComponents.Add(p);
+                // }
             }
             if (p.tag == "FuelTank")
             {
-                if (!fuelTanks.Contains(p))
-                {
-                    fuelTanks.Add(p);
-                    stackComponents.Add(p);
-                }
+                // if (!fuelTanks.Contains(p))
+                // {
+                fuelTanks.Add(p);
+                stackComponents.Add(p);
+                // }
             if (!stackComponents.Contains(p))
                     stackComponents.Add(p);
                     if (!periphery.Contains(p))
